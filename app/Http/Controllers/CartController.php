@@ -128,7 +128,12 @@ class CartController extends Controller
 
 		if($request->temp_order_row_id) 
 		{
-			DB::table('temp_orders')->where('temp_order_row_id', $request->temp_order_row_id)->delete(); 
+                        $tracking_number = Session::getId();
+			DB::table('temp_orders')->where('temp_order_row_id', $request->temp_order_row_id)->delete();
+                        $total_price = DB::table('temp_orders')
+                               ->where('tracking_number', $tracking_number)
+                               ->sum('product_total_price');
+                        return $total_price;
 		}
 	 
     } 
@@ -139,7 +144,8 @@ class CartController extends Controller
 
 		if($tracking_number) 
 		{
-			DB::table('temp_orders')->where('tracking_number', $tracking_number)->delete(); 
+			DB::table('temp_orders')->where('tracking_number', $tracking_number)->delete();
+                        
 		}
     } 
 	
@@ -147,10 +153,11 @@ class CartController extends Controller
 	
 	public function checkout()
 	{
+            
 	 $tracking_number = Session::getId();
      //$id=Auth::user()->id;
 	 $data = array();
-	 $data['district'] = \App\District::get();	 
+	 //$data['district'] = \App\District::get();	 
 	 
 	 $data['product_total_price'] = DB::table('temp_orders')->where('tracking_number', $tracking_number)->sum('product_total_price');	 
 	 return view('checkout', ['data'=>$data]);   

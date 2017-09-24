@@ -37,3 +37,5 @@ Route::get('/mycart', 'CartController@cart');
 Route::get('/mycart', 'CartController@mycart');
 Route::post('/addToCart', 'CartController@postaddToCart');
 Route::post('/cartItemDelete','CartController@cartItemDelete');
+Route::post('/cartItemDeleteAll','CartController@cartItemDeleteAll');
+Route::get('/checkout','CartController@checkout');

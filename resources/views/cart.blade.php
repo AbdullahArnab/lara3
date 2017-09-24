@@ -35,7 +35,7 @@
 						
 						<tr>
 						<td colspan="3"> &nbsp;</td>
-						<td> <strong>Total:</strong> ${{ $data['total_price'] }}</td>
+                                                <td> <strong>Total:</strong><text id="total_price"> ${{ $data['total_price'] }}</text></td>
 						<td> &nbsp;</td>
 						</tr>						
 					  </tbody>
@@ -85,8 +85,12 @@ $(document).ready(function() {
 		headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')},
         url : "{{url ('/') }}" + "/cartItemDelete",
         data : dataString,                    
-        success : function(status) {		
-		    $('#cart-item-' + temp_order_row_id) . remove();         
+        success : function(status) {
+            //alert(status);
+            //return false; 
+		    $('#cart-item-' + temp_order_row_id) . remove();
+                    //document.getElementById("total_price").innerHTML = "Total: $"+status;
+                    $('#total_price').html(status);
         }
     });
 	
